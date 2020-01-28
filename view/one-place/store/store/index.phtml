@@ -1,3 +1,35 @@
 <?php
+$aArticles = [
+    (object)['id'=>1,'label'=>'Vuze','author'=>(object)['label'=>'bootlab.io','href'=>'https://bootlab.io'],'price'=>59],
+    (object)['id'=>2,'label'=>'AppStack','author'=>(object)['label'=>'bootlab.io','href'=>'https://bootlab.io'],'price'=>59],
+];
 ?>
-<h1>Store Index</h1>
+<h2>Modules</h2>
+
+<hr>
+
+<h2>Themes</h2>
+<div class="row">
+    <?php foreach($aArticles as $oArt) { ?>
+    <!-- Store Item -->
+    <div class="col-md-3 px-2 py-2">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="https://via.placeholder.com/156x156" class="img-fluid rounded" alt="Vuze" />
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="card-title"><?=$oArt->label?></h3>
+                        <p>Author: <a href="<?=$oArt->author->href?>"><?=$oArt->author->label?></a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="/store/buy/<?=$oArt->id?>"class="btn btn-primary text-white">Buy for $ <?=$oArt->price?></a>
+            </div>
+        </div>
+    </div>
+    <!-- Store Item -->
+    <?php } ?>
+</div>

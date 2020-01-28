@@ -50,8 +50,8 @@ class Module {
         return [
             'factories' => [
                 Controller\StoreController::class => function($container) {
-                    //$oDbAdapter = $container->get(AdapterInterface::class);
-                    return new Controller\StoreController();
+                    $oDbAdapter = $container->get(AdapterInterface::class);
+                    return new Controller\StoreController($oDbAdapter);
                 },
             ],
         ];

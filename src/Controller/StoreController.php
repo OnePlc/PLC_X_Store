@@ -34,7 +34,8 @@ class StoreController extends CoreController {
      *
      * @since 1.0.0
      */
-    public function __construct() {
+    public function __construct($oDbAdapter) {
+        parent::__construct($oDbAdapter,false,CoreController::$oServiceManager);
     }
 
     /**
@@ -48,5 +49,28 @@ class StoreController extends CoreController {
         $this->setThemeBasedLayout('store');
 
         return new ViewModel([]);
+    }
+
+    /**
+     * Store - Buy
+     *
+     * @return ViewModel
+     * @since 1.0.0
+     */
+    public function buyAction() {
+        # Set Layout based on users theme
+        $this->setThemeBasedLayout('store');
+
+        $oRequest = $this->getRequest();
+
+        if(!$oRequest->isPost()) {
+            $iStoreItemID = $this->params()->fromRoute('id', 0);
+
+            return new ViewModel([
+                'iStoreItemID'=>$iStoreItemID,
+            ]);
+        } else {
+            return $this->redirect()->toRoute('home');
+        }
     }
 }
