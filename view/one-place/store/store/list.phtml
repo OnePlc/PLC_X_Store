@@ -1,0 +1,31 @@
+<?php
+$aArticles = [
+    (object)['id'=>1,'label'=>'5 Users','price'=>19],
+    (object)['id'=>2,'label'=>'50 Users','price'=>159],
+];
+?>
+
+<h2><?=$sStoreCategory?></h2>
+<div class="row">
+    <?php foreach($aArticles as $oArt) { ?>
+        <!-- Store Item -->
+        <div class="col-md-3 px-2 py-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <i class="fas fa-users fa-4x"></i>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="card-title"><?=$oArt->label?></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="/store/buy/<?=$oArt->id?>"class="btn btn-primary text-white">Buy for $ <?=$oArt->price?></a>
+                </div>
+            </div>
+        </div>
+        <!-- Store Item -->
+    <?php } ?>
+</div>

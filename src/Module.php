@@ -53,6 +53,14 @@ class Module {
                     $oDbAdapter = $container->get(AdapterInterface::class);
                     return new Controller\StoreController($oDbAdapter);
                 },
+                Controller\ApiController::class => function($container) {
+                    $oDbAdapter = $container->get(AdapterInterface::class);
+                    return new Controller\ApiController(
+                        $oDbAdapter,
+                        $container->get(\OnePlace\Article\Model\ArticleTable::class),
+                        $container
+                    );
+                },
             ],
         ];
     }

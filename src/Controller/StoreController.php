@@ -48,7 +48,36 @@ class StoreController extends CoreController {
         # Set Layout based on users theme
         $this->setThemeBasedLayout('store');
 
-        return new ViewModel([]);
+        if(!isset(CoreController::$aGlobalSettings['store-server-url'])) {
+            return new ViewModel([
+                'sError'=>'Store not connected',
+            ]);
+        }
+
+        $sStoreUrl = CoreController::$aGlobalSettings['store-server-url'];
+        $sStoreApiKey = CoreController::$aGlobalSettings['store-server-apikey'];
+
+        $sApiURL = CoreController::$aGlobalSettings['store-server-url'].'/store/api/list/0?authkey=DEVRANDOMKEY&systemkey='.CoreController::$aGlobalSettings['store-server-apikey'];
+        $sAnswer = file_get_contents($sApiURL);
+
+        $oResponse = json_decode($sAnswer);
+
+        $aItems = [];
+
+        if(is_object($oResponse)) {
+            if($oResponse->state != 'success') {
+                return new ViewModel([
+                    'sError'=>'could not load list',
+                ]);
+            }
+        }
+
+        $aItems = $oResponse->items;
+
+        return new ViewModel([
+            'sStoreUrl'=>$sStoreUrl,
+            'aItems'=>$aItems,
+        ]);
     }
 
     /**
@@ -72,5 +101,22 @@ class StoreController extends CoreController {
         } else {
             return $this->redirect()->toRoute('home');
         }
+    }
+
+    /**
+     * List articles of a certain category
+     *
+     * @return ViewModel
+     * @since 1.0.0
+     */
+    public function listAction() {
+        # Set Layout based on users theme
+        $this->setThemeBasedLayout('store');
+
+        $sStoreCategory = $this->params()->fromRoute('id','all');
+
+        return new ViewModel([
+            'sStoreCategory'=>$sStoreCategory,
+        ]);
     }
 }

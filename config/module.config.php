@@ -30,10 +30,24 @@ return [
                     'route' => '/store[/:action[/:id]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'id'     => '[0-9]+',
+                        'id'     => '[a-zA-Z0-9-]+',
                     ],
                     'defaults' => [
                         'controller' => Controller\StoreController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+            'store-api' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route' => '/store/api[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\ApiController::class,
                         'action'     => 'index',
                     ],
                 ],
