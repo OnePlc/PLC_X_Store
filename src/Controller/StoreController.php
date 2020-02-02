@@ -109,8 +109,27 @@ class StoreController extends CoreController {
         if(!$oRequest->isPost()) {
             $iStoreItemID = $this->params()->fromRoute('id', 0);
 
+            try {
+                $sApiURL = CoreController::$aGlobalSettings['store-server-url'] . '/article/api/get/'.$iStoreItemID;
+                $sApiURL .= '?authkey='.CoreController::$aGlobalSettings['store-server-apikey'];
+                $sApiURL .= '&authtoken='.CoreController::$aGlobalSettings['store-server-apitoken'];
+                $sApiURL .= '&systemkey=' . CoreController::$aGlobalSettings['store-server-apikey'];
+                $sAnswer = file_get_contents($sApiURL);
+            } catch(\RuntimeException $e) {
+                return new ViewModel([
+                    'sError'=>'Could not connect to store',
+                ]);
+            }
+
+            $oResponse = json_decode($sAnswer);
+            if(!is_object($oResponse)) {
+                return new ViewModel([
+                    'sError'=>'error loading store data',
+                ]);
+            }
+
             return new ViewModel([
-                'iStoreItemID'=>$iStoreItemID,
+                'oStoreItem'=>$oResponse->oItem,
             ]);
         } else {
             return $this->redirect()->toRoute('home');
