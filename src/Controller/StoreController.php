@@ -57,8 +57,22 @@ class StoreController extends CoreController {
         $sStoreUrl = CoreController::$aGlobalSettings['store-server-url'];
         $sStoreApiKey = CoreController::$aGlobalSettings['store-server-apikey'];
 
-        $sApiURL = CoreController::$aGlobalSettings['store-server-url'].'/store/api/list/0?authkey=DEVRANDOMKEY&systemkey='.CoreController::$aGlobalSettings['store-server-apikey'];
-        $sAnswer = file_get_contents($sApiURL);
+        try {
+            $sApiURL = CoreController::$aGlobalSettings['store-server-url'] . '/store/api/list/0';
+            $sApiURL .= '?authkey='.CoreController::$aGlobalSettings['store-server-apikey'];
+            $sApiURL .= '&authtoken='.CoreController::$aGlobalSettings['store-server-apitoken'];
+            $sApiURL .= '&systemkey=' . CoreController::$aGlobalSettings['store-server-apikey'];
+            $sAnswer = file_get_contents($sApiURL);
+        } catch(\RuntimeException $e) {
+            return new ViewModel([
+                'sError'=>'Could not connect to store',
+            ]);
+        }
+        if(!$sAnswer) {
+            return new ViewModel([
+                'sError'=>'Could not connect to store',
+            ]);
+        }
 
         $oResponse = json_decode($sAnswer);
 

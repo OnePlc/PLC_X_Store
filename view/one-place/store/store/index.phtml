@@ -5,13 +5,15 @@ if(isset($sStoreUrl)) { ?>
     $aCategories = [];
     $aArticlesByCategory = [];
     foreach($aItems as $oArt) {
-        foreach($oArt->category as $oCat) {
-            if($oCat->label != 'Store Item') {
-                $aCategories[$oCat->id] = $oCat;
-                if(!array_key_exists($oCat->id,$aArticlesByCategory)) {
-                    $aArticlesByCategory[$oCat->id] = [];
+        if(isset($oArt->category_idfs)) {
+            foreach ($oArt->category_idfs as $oCat) {
+                if ($oCat->label != 'Store Item') {
+                    $aCategories[$oCat->id] = $oCat;
+                    if (!array_key_exists($oCat->id, $aArticlesByCategory)) {
+                        $aArticlesByCategory[$oCat->id] = [];
+                    }
+                    $aArticlesByCategory[$oCat->id][$oArt->id] = $oArt;
                 }
-                $aArticlesByCategory[$oCat->id][$oArt->id] = $oArt;
             }
         }
     }
@@ -45,7 +47,7 @@ if(isset($sStoreUrl)) { ?>
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <a href="/store/buy/<?=$oArt->id?>"class="btn btn-primary text-white">Buy for $ <?=$oArt->price?></a>
+                                    <a href="/store/buy/<?=$oArt->id?>"class="btn btn-primary text-white">Buy for $ <?=$oArt->price_sell?></a>
                                 </div>
                             </div>
                         </div>
@@ -77,8 +79,12 @@ if(isset($sStoreUrl)) { ?>
         <hr/>
     <?php
     }
-    ?>
-<?php
+
+    if(count($aCategories) == 0) {
+        ?>
+        <div class="alert alert-info">Currently no articles in store</div>
+        <?php
+    }
 } else { ?>
 <div class="alert alert-danger"><?=$sError?></div>
 <?php
