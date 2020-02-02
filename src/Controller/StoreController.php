@@ -48,6 +48,11 @@ class StoreController extends CoreController {
         # Set Layout based on users theme
         $this->setThemeBasedLayout('store');
 
+        # Set Links for Breadcrumb
+        $this->layout()->aNavLinks = [
+            (object)['label'=>'Store'],
+        ];
+
         if(!isset(CoreController::$aGlobalSettings['store-server-url'])) {
             return new ViewModel([
                 'sError'=>'Store not connected',
