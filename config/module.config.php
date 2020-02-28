@@ -38,6 +38,20 @@ return [
                     ],
                 ],
             ],
+            'store-setup' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route' => '/store/setup[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\InstallController::class,
+                        'action'     => 'checkdb',
+                    ],
+                ],
+            ],
             'store-api' => [
                 'type'    => Segment::class,
                 'options' => [

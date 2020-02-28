@@ -19,36 +19,19 @@ if(isset($sStoreUrl)) { ?>
     }
 
     ?>
-    <div class="alert alert-success">Connected to <?=$sStoreUrl?></div>
-
+    <!--
     <div class="row">
         <div class="col-md-12" style="display:inline-block; position: relative; box-sizing: border-box;">
             <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
                 </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="https://via.placeholder.com/1650x350" class="d-block w-100" alt="...">
+                        <img src="https://store.onep.lc/img/aboutus.jpg" class="d-block w-100" alt="...">
                         <div class="carousel-caption d-none d-md-block">
-                            <h5>First slide label</h5>
-                            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://via.placeholder.com/1650x350" class="d-block w-100" alt="...">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Second slide label</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://via.placeholder.com/1650x350" class="d-block w-100" alt="...">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Third slide label</h5>
-                            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+                            <h5>Store eröffnet</h5>
+                            <p>Willkommen im onePlace Store!</p>
                         </div>
                     </div>
                 </div>
@@ -63,14 +46,18 @@ if(isset($sStoreUrl)) { ?>
             </div>
         </div>
     </div>
-
+    -->
     <?php
     foreach($aCategories as $oCat) { ?>
         <h2><?=$oCat->label?></h2>
                 <?php
                 $bFirst = true;
                 $iCount = 1;
-                foreach($aArticlesByCategory[$oCat->id] as $oArt) { ?>
+                foreach($aArticlesByCategory[$oCat->id] as $oArt) {
+                    if(array_key_exists($oArt->id,$aArticlesIHave)) {
+                        continue;
+                    }
+                    ?>
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
@@ -98,7 +85,10 @@ if(isset($sStoreUrl)) { ?>
         <div class="alert alert-info">Currently no articles in store</div>
         <?php
     }
-} else { ?>
+    ?>
+    <div class="alert alert-success">Connected to <?=$sStoreUrl?></div>
+    <?php
+    } else { ?>
 <div class="alert alert-danger"><?=$sError?></div>
 <?php
 }

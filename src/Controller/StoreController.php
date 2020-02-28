@@ -93,9 +93,23 @@ class StoreController extends CoreController {
 
         $aItems = $oResponse->items;
 
+        $iInstanceID = CoreController::$oSession->aLicences['info-instance-id'];
+        $sLicApiURL = CoreController::$aGlobalSettings['license-server-url'].'/license/api/list/'.$iInstanceID.'?authkey='.CoreController::$aGlobalSettings['license-server-apikey'].'&authtoken='.CoreController::$aGlobalSettings['license-server-apitoken'].'&modulename=all&systemkey='.CoreController::$aGlobalSettings['license-server-apikey'];
+        $sLicAnswer = file_get_contents($sLicApiURL);
+
+        $aArticlesIHave = [];
+
+        $oLicResponse = json_decode($sLicAnswer);
+        if(count($oLicResponse->items) > 0) {
+            foreach($oLicResponse->items as $oLic) {
+                $aArticlesIHave[$oLic->article_idfs] = true;
+            }
+        }
+
         return new ViewModel([
             'sStoreUrl'=>$sStoreUrl,
             'aItems'=>$aItems,
+            'aArticlesIHave' => $aArticlesIHave,
         ]);
     }
 

@@ -61,6 +61,14 @@ class Module {
                         $container
                     );
                 },
+                Controller\InstallController::class => function($container) {
+                    $oDbAdapter = $container->get(AdapterInterface::class);
+                    return new Controller\InstallController(
+                        $oDbAdapter,
+                        $container->get(\OnePlace\Article\Model\ArticleTable::class),
+                        $container
+                    );
+                },
             ],
         ];
     }

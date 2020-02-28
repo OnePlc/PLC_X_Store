@@ -8,4 +8,9 @@ INSERT INTO `permission` (`permission_key`, `module`, `label`, `nav_label`, `nav
 ('index', 'OnePlace\\Store\\Controller\\ApiController', 'List', '', '', 0),
 ('list', 'OnePlace\\Store\\Controller\\ApiController', 'List', '', '', 0);
 
+--
+-- icon
+--
+INSERT INTO `settings` (`settings_key`, `settings_value`) VALUES ('store-icon', 'fas fa-store');
+
 COMMIT;
